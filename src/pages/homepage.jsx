@@ -1,7 +1,8 @@
-import Header from '../components/Header'
-import HeroSection from "../components/HeroSection"
+import Header from '../components/Header';
+import HeroSection from '../components/HeroSection';
 import StrengthSection from '../components/StrengthSection';
 import TestimonialSection from '../components/TestimonialSection';
+import Footer from '../components/Footer';
 
 export default function  HomePage() {
 return (
@@ -10,6 +11,7 @@ return (
       <HeroSection/>
       <StrengthSection/>
       <TestimonialSection/>
+      <Footer/>
     </>
 );
 }
