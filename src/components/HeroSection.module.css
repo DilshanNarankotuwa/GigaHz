@@ -1,0 +1,195 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 92vh, 900px);
+  overflow: hidden;
+  background: #05060a;
+  margin-top:80px;
+}
+
+/* Slides container */
+.slides {
+  position: absolute;
+  inset: 0;
+}
+
+/* Each slide uses background image */
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.06);
+  opacity: 0;
+  transition: opacity 900ms ease, transform 1200ms ease;
+  filter: saturate(1.08) contrast(1.05);
+}
+
+.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Overlay for readability */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      900px 500px at 20% 25%,
+      rgba(0, 170, 255, 0.18),
+      transparent 60%
+    ),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.15)),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1));
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+
+.eyebrow {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.title {
+  font-size: clamp(34px, 4.2vw, 64px);
+  line-height: 1.05;
+  color: #fff;
+  max-width: 18ch;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.65);
+}
+
+.subtitle {
+  font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 60ch;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btnPrimary {
+  background: rgba(0, 170, 255, 0.22);
+  border-color: rgba(0, 170, 255, 0.45);
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  background: rgba(0, 170, 255, 0.3);
+}
+
+.btnGhost {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.btnGhost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  line-height: 1;
+  backdrop-filter: blur(10px);
+  transition: background 160ms ease;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.52);
+}
+
+.left {
+  left: 18px;
+}
+
+.right {
+  right: 18px;
+}
+
+/* Dots */
+.dots {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  transition: width 180ms ease, background 180ms ease;
+}
+
+.dotActive {
+  width: 26px;
+  background: rgba(0, 170, 255, 0.55);
+  border-color: rgba(0, 170, 255, 0.75);
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .hero {
+    border-radius: 14px;
+  }
+  .arrow {
+    display: none;
+  }
+}
