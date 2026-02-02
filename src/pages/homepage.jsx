@@ -4,6 +4,7 @@ import StrengthSection from '../components/StrengthSection';
 import TestimonialSection from '../components/TestimonialSection';
 import Footer from '../components/Footer';
 
+
 export default function  HomePage() {
 return (
     <>
