@@ -26,7 +26,7 @@ export default function Header() {
             </a>
           </li>
           <li>
-            <Link to="/Laptops">Laptops</Link>
+            <Link to="/laptops">Laptops</Link>
           </li>
           <li>
             <a href="/mobiles">Mobiles</a>
