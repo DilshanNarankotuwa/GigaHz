@@ -25,12 +25,11 @@
               radial-gradient(900px 800px at 50% 80%, rgba(56,217,169,0.08), transparent 55%),
               var(--bg);
   color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue";
 }
 
 .bmp-page{
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 80px auto 0px auto;
   padding: 28px 16px 60px;
 }
 
@@ -88,6 +87,12 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 16px;
+}
+
+/* Left column highlight (until the user selects the current part) */
+.cardHighlight{
+  box-shadow: var(--shadow), 0 0 0 3px rgba(255,45,85,0.18);
+  border-color: rgba(255,45,85,0.28);
 }
 
 .cardTop{

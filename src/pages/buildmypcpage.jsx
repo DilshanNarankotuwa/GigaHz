@@ -119,8 +119,8 @@ export default function BuildMyPC() {
     cpu: 1, motherboard: 1, ram: 1, storage: 1, casing: 1, cooling: 1, psu: 1, gpu: 1,
   });
 
-  // ✅ CPU modal only AMD/Intel
-  const [cpuModalOpen, setCpuModalOpen] = useState(false);
+  // ✅ CPU modal only AMD/Intel (opens when Build My PC page opens)
+  const [cpuModalOpen, setCpuModalOpen] = useState(true);
   const [cpuBrandSelected, setCpuBrandSelected] = useState(null); // "AMD" | "Intel" | null
 
   
@@ -263,6 +263,12 @@ export default function BuildMyPC() {
     goToStep(0);
   }
 
+  // ✅ Left column highlight until the user selects the required item for the active part
+  const needsSelection = useMemo(() => {
+    if (activeStep.key === "cpu") return !selections.cpu;
+    return !selections[activeStep.key];
+  }, [activeStep.key, selections]);
+
   function aiSuggestionText() {
     const cpu = selections.cpu;
     const mb = selections.motherboard;
@@ -319,430 +325,424 @@ export default function BuildMyPC() {
   }
 
   return (
-    
-    <div className={styles["bmp-page"]}>
+    <>
       <Header/>
-      <header className={styles["bmp-header"]}>
-        <div>
-          <div className={styles.brand}>
-            <span className={styles.brandDot} />
-            <span className={styles.brandName}>GigaHz</span>
-            <span className={styles.brandSub}>Build My PC</span>
-          </div>
-          <p className={styles.subtitle}>
-            Build a compatible system unit step-by-step, track totals, then get AI suggestions.
-          </p>
-        </div>
-        <div className={styles.headerActions}>
-          <button
-            className={styles.ghostBtn}
-            onClick={() => {
-              setSelections({ cpu: null, motherboard: null, ram: null, storage: null, casing: null, cooling: null, psu: null, gpu: null });
-              setQtyByKey({ cpu: 1, motherboard: 1, ram: 1, storage: 1, casing: 1, cooling: 1, psu: 1, gpu: 1 });
-              setCpuBrandSelected(null);
-              goToStep(0);
-              setAiAnswer("");
-              setQuestion("");
-              setSearch("");
-              setFilterStock("all");
-            }}
-          >
-            Reset build
-          </button>
-          <button className={styles.primaryBtn} onClick={() => alert("Connect to your cart system here ✅")}>
-            Add to Cart
-          </button>
-        </div>
-      </header>
-
-      {/* System Unit Carousel */}
-      <section className={styles.card}>
-        <div className={styles.cardTop}>
-          <h2 className={styles.cardTitle}>System Unit</h2>
-          <div className={styles.stepHint}>
-            Current: <span className={styles.stepPill}>{activeStep.label}</span>
-          </div>
-        </div>
-
-        <div className={styles.carouselWrap}>
-          <div className={styles.carousel} ref={carouselRef} onWheel={onCarouselWheel}>
-            {PARTS.map((p, idx) => {
-              const isActive = idx === activeStepIndex;
-              const chosen = selections[p.key];
-
-              return (
-                <button
-                  key={p.key}
-                  data-step-index={idx}
-                  className={`${styles.partCard} ${isActive ? styles.active : ""}`}
-                  onClick={() => {
-                    // CPU click opens modal (only AMD/Intel)
-                    if (p.key === "cpu") {
-                      goToStep(0);
-                      openCpuBrandModal();
-                      return;
-                    }
-                    goToStep(idx);
-                  }}
-                >
-                  <div className={styles.partTop}>
-                    <div className={styles.partLabel}>{p.label}</div>
-                    <div className={`${styles.miniStatus} ${chosen ? styles.ok : ""}`}>
-                      {chosen ? "Selected" : "Choose"}
-                    </div>
-                  </div>
-
-                  <div className={styles.partBody}>
-                    <div className={styles.partName}>
-                      {chosen ? chosen.name : "Click to select"}
-                    </div>
-                    <div className={styles.partMeta}>
-                      {chosen ? formatLKR(chosen.price) : "Compatibility filtering enabled"}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Dots */}
-          <div className={styles.dots}>
-            {PARTS.map((p, i) => (
-              <button
-                key={p.key}
-                className={`${styles.dot} ${i === activeStepIndex ? styles.on : ""}`}
-                onClick={() => {
-                  if (p.key === "cpu") {
-                    goToStep(0);
-                    openCpuBrandModal();
-                  } else {
-                    goToStep(i);
-                  }
-                }}
-                aria-label={`Go to ${p.label}`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Main 2-column area */}
-      <section className={styles.grid2}>
-        {/* Left column */}
-        <div className={styles.card}>
-          <div className={styles.cardTop}>
-            <h3 className={styles.cardTitle}>{activeStep.label} Options</h3>
-
-            <div className={styles.filters}>
-              <div className={styles.seg}>
-                <button className={filterStock === "all" ? styles.on : ""} onClick={() => setFilterStock("all")}>All</button>
-                <button className={filterStock === "in" ? styles.on : ""} onClick={() => setFilterStock("in")}>In</button>
-                <button className={filterStock === "out" ? styles.on : ""} onClick={() => setFilterStock("out")}>Out</button>
-                <button className={filterStock === "pre" ? styles.on : ""} onClick={() => setFilterStock("pre")}>Pre</button>
-              </div>
-
-              <input
-                className={styles.search}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search parts..."
-              />
+      <div className={styles["bmp-page"]}>
+        <header className={styles["bmp-header"]}>
+          <div>
+            <div className={styles.brand}>
+              <span className={styles.brandDot} />
+              <span className={styles.brandName}>GigaHz</span>
+              <span className={styles.brandSub}>Build My PC</span>
             </div>
+            <p className={styles.subtitle}>
+              Build a compatible system unit step-by-step, track totals, then get AI suggestions.
+            </p>
           </div>
-
-          {/* ✅ CPU step behavior exactly */}
-          {activeStep.key === "cpu" && !cpuBrandSelected ? (
-            <div className={styles.emptyCpu}>
-              <div className={styles.emptyCpuBox}>
-                <div className={styles.bigText}>Choose your processor type</div>
-                <div className={styles.muted}>Click CPU and select AMD or Intel.</div>
-                <button className={styles.primaryBtn} onClick={openCpuBrandModal}>
-                  Select AMD / Intel
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className={`${styles.list} ${listFlash ? styles.listFlash : ""}`}>
-              {itemsForLeft.length === 0 ? (
-                <div className={styles.emptyState}>
-                  No items found. Try changing filters or search.
-                </div>
-              ) : (
-                itemsForLeft.map((it) => {
-                  const b = stockBadge(it.stock);
-                  return (
-                    <div
-                      key={it.id}
-                      role="button"
-                      tabIndex={it.stock === "out" ? -1 : 0}
-                      aria-disabled={it.stock === "out"}
-                      className={`${styles.listRow} ${selections[activeStep.key]?.id === it.id ? styles.selectedRow : ""} ${it.stock === "out" ? styles.rowDisabled : ""}`}
-                      title={it.stock === "out" ? "Out of stock" : "Select"}
-                      onClick={() => {
-                        if (it.stock === "out") return;
-                        setSelection(activeStep.key, it);
-                      }}
-                      onKeyDown={(e) => {
-                        if (it.stock === "out") return;
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          setSelection(activeStep.key, it);
-                        }
-                      }}
-                    >
-                      <div className={styles.rowLeft}>
-                        <div className={styles.rowName}>{it.name}</div>
-                        <div className={styles.rowSub}>
-                          {it.socket ? `Socket: ${it.socket}` : it.type ? `Type: ${it.type}` : it.watt ? `Watt: ${it.watt}W` : ""}
-                        </div>
-                      </div>
-                      <div className={styles.rowRight}>
-                        <div className={b.cls}>{b.text}</div>
-                        <div className={styles.rowPrice}>{formatLKR(it.price)}</div>
-                        <button
-                          type="button"
-                          className={styles.detailsBtn}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openDetails(it);
-                          }}
-                        >
-                          View details
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Right column: summary */}
-        <div className={styles.card}>
-          <div className={styles.cardTop}>
-            <h3 className={styles.cardTitle}>Selected Parts</h3>
-            <div className={styles.miniNote}>Auto moves to next step after selection</div>
-          </div>
-
-          <div className={styles.summaryList}>
-            {PARTS.map((p) => {
-              const item = selections[p.key];
-              return (
-                <div key={p.key} className={`${styles.sumRow} ${item ? "" : styles.dim}`}>
-                  <div className={styles.sumLeft}>
-                    <div className={styles.sumLabel}>{p.label}</div>
-                    <div className={styles.sumName}>{item ? item.name : "Not selected"}</div>
-                  </div>
-
-                  <div className={styles.sumRight}>
-                    {item ? (
-                      <>
-                        <div className={styles.qty}>
-                          <button
-                            onClick={() =>
-                              setQtyByKey((prev) => ({
-                                ...prev,
-                                [p.key]: Math.max(1, (prev[p.key] || 1) - 1),
-                              }))
-                            }
-                          >
-                            −
-                          </button>
-                          <span>{qtyByKey[p.key] || 1}</span>
-                          <button
-                            onClick={() =>
-                              setQtyByKey((prev) => ({
-                                ...prev,
-                                [p.key]: (prev[p.key] || 1) + 1,
-                              }))
-                            }
-                          >
-                            +
-                          </button>
-                        </div>
-                        <div className={styles.sumPrice}>{formatLKR(item.price * (qtyByKey[p.key] || 1))}</div>
-                      </>
-                    ) : (
-                      <button
-                        className={`${styles.ghostBtn} ${styles.small}`}
-                        onClick={() => {
-                          const idx = PARTS.findIndex((x) => x.key === p.key);
-                          if (p.key === "cpu") {
-                            goToStep(0);
-                            openCpuBrandModal();
-                          } else {
-                            goToStep(Math.max(0, idx));
-                          }
-                        }}
-                      >
-                        Select
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className={styles.divider} />
-
-          <div className={styles.totals}>
-            <div className={styles.tRow}>
-              <span>Total</span>
-              <span>{formatLKR(total)}</span>
-            </div>
-            <div className={styles.tRow}>
-              <span>Discount</span>
-              <span className={styles.discount}>− {formatLKR(discount)}</span>
-            </div>
-            <div className={`${styles.tRow} ${styles.grand}`}>
-              <span>Payable</span>
-              <span>{formatLKR(payable)}</span>
-            </div>
-          </div>
-
-          <div className={styles.ctaRow}>
-            <button className={`${styles.primaryBtn} ${styles.full}`} onClick={() => alert("Connect this to your cart ✅")}>
+          <div className={styles.headerActions}>
+            <button
+              className={styles.ghostBtn}
+              onClick={() => {
+                setSelections({ cpu: null, motherboard: null, ram: null, storage: null, casing: null, cooling: null, psu: null, gpu: null });
+                setQtyByKey({ cpu: 1, motherboard: 1, ram: 1, storage: 1, casing: 1, cooling: 1, psu: 1, gpu: 1 });
+                setCpuBrandSelected(null);
+                setCpuModalOpen(true);
+                goToStep(0);
+                setAiAnswer("");
+                setQuestion("");
+                setSearch("");
+                setFilterStock("all");
+              }}
+            >
+              Reset build
+            </button>
+            <button className={styles.primaryBtn} onClick={() => alert("Connect to your cart system here ✅")}>
               Add to Cart
             </button>
           </div>
-        </div>
-      </section>
+        </header>
 
-      {/* AI Assistant section */}
-      <section className={`${styles.card} ${styles.aiCard}`}>
-        <div className={styles.cardTop}>
-          <h2 className={styles.cardTitle}>AI PC Builder Assistant</h2>
-          <div className={styles.miniNote}>Scroll here after selecting parts to get suggestions</div>
-        </div>
-
-        <div className={styles.aiGrid}>
-          <div className={styles.aiSuggestion}>
-            <div className={styles.aiTitle}>AI Suggestion Note</div>
-            <pre className={styles.aiBox}>{aiSuggestionText()}</pre>
+        {/* System Unit Carousel */}
+        <section className={styles.card}>
+          <div className={styles.cardTop}>
+            <h2 className={styles.cardTitle}>System Unit</h2>
+            <div className={styles.stepHint}>
+              Current: <span className={styles.stepPill}>{activeStep.label}</span>
+            </div>
           </div>
 
-          <div className={styles.aiAsk}>
-            <div className={styles.aiTitle}>Ask a Question</div>
-            <div className={styles.askRow}>
-              <input
-                className={styles.askInput}
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                placeholder="e.g., Will this build bottleneck at 1440p gaming?"
-              />
-              <button className={styles.primaryBtn} onClick={askAI}>Ask</button>
+          <div className={styles.carouselWrap}>
+            <div className={styles.carousel} ref={carouselRef} onWheel={onCarouselWheel}>
+              {PARTS.map((p, idx) => {
+                const isActive = idx === activeStepIndex;
+                const chosen = selections[p.key];
+
+                return (
+                  <button
+                    key={p.key}
+                    data-step-index={idx}
+                    className={`${styles.partCard} ${isActive ? styles.active : ""}`}
+                    onClick={() => {
+                      // CPU no longer opens modal on click
+                      if (p.key === "cpu") return goToStep(0);
+                      return goToStep(idx);
+                    }}
+                  >
+                    <div className={styles.partTop}>
+                      <div className={styles.partLabel}>{p.label}</div>
+                      <div className={`${styles.miniStatus} ${chosen ? styles.ok : ""}`}>
+                        {chosen ? "Selected" : "Choose"}
+                      </div>
+                    </div>
+
+                    <div className={styles.partBody}>
+                      <div className={styles.partName}>
+                        {chosen ? chosen.name : "Click to select"}
+                      </div>
+                      <div className={styles.partMeta}>
+                        {chosen ? formatLKR(chosen.price) : "Compatibility filtering enabled"}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
 
-            <div className={styles.aiAnswer}>
-              <div className={styles.aiTitle}>Answer</div>
-              <div className={styles.answerBox}>
-                {aiAnswer ? <pre className={styles.answerText}>{aiAnswer}</pre> : <span className={styles.muted}>AI answer will appear here.</span>}
+            {/* Dots */}
+            <div className={styles.dots}>
+              {PARTS.map((p, i) => (
+                <button
+                  key={p.key}
+                  className={`${styles.dot} ${i === activeStepIndex ? styles.on : ""}`}
+                  onClick={() => {
+                    if (p.key === "cpu") return goToStep(0);
+                    return goToStep(i);
+                  }}
+                  aria-label={`Go to ${p.label}`}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Main 2-column area */}
+        <section className={styles.grid2}>
+          {/* Left column */}
+          <div className={`${styles.card} ${needsSelection ? styles.cardHighlight : ""}`}>
+            <div className={styles.cardTop}>
+              <h3 className={styles.cardTitle}>{activeStep.label} Options</h3>
+
+              <div className={styles.filters}>
+                <div className={styles.seg}>
+                  <button className={filterStock === "all" ? styles.on : ""} onClick={() => setFilterStock("all")}>All</button>
+                  <button className={filterStock === "in" ? styles.on : ""} onClick={() => setFilterStock("in")}>In</button>
+                  <button className={filterStock === "out" ? styles.on : ""} onClick={() => setFilterStock("out")}>Out</button>
+                  <button className={filterStock === "pre" ? styles.on : ""} onClick={() => setFilterStock("pre")}>Pre</button>
+                </div>
+
+                <input
+                  className={styles.search}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search parts..."
+                />
               </div>
             </div>
 
-            <div className={styles.finalRow}>
-              <button className={`${styles.primaryBtn} ${styles.full}`} onClick={() => alert("Final add-to-cart action ✅")}>
+            {/* ✅ CPU step behavior exactly */}
+            {activeStep.key === "cpu" && !cpuBrandSelected ? (
+              <div className={styles.emptyCpu}>
+                <div className={styles.emptyCpuBox}>
+                  <div className={styles.bigText}>Choose your processor type</div>
+                  <div className={styles.muted}>Select AMD or Intel to begin.</div>
+                  <button className={styles.primaryBtn} onClick={openCpuBrandModal}>
+                    Select AMD / Intel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className={`${styles.list} ${listFlash ? styles.listFlash : ""}`}>
+                {itemsForLeft.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    No items found. Try changing filters or search.
+                  </div>
+                ) : (
+                  itemsForLeft.map((it) => {
+                    const b = stockBadge(it.stock);
+                    return (
+                      <div
+                        key={it.id}
+                        role="button"
+                        tabIndex={it.stock === "out" ? -1 : 0}
+                        aria-disabled={it.stock === "out"}
+                        className={`${styles.listRow} ${selections[activeStep.key]?.id === it.id ? styles.selectedRow : ""} ${it.stock === "out" ? styles.rowDisabled : ""}`}
+                        title={it.stock === "out" ? "Out of stock" : "Select"}
+                        onClick={() => {
+                          if (it.stock === "out") return;
+                          setSelection(activeStep.key, it);
+                        }}
+                        onKeyDown={(e) => {
+                          if (it.stock === "out") return;
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setSelection(activeStep.key, it);
+                          }
+                        }}
+                      >
+                        <div className={styles.rowLeft}>
+                          <div className={styles.rowName}>{it.name}</div>
+                          <div className={styles.rowSub}>
+                            {it.socket ? `Socket: ${it.socket}` : it.type ? `Type: ${it.type}` : it.watt ? `Watt: ${it.watt}W` : ""}
+                          </div>
+                        </div>
+                        <div className={styles.rowRight}>
+                          <div className={b.cls}>{b.text}</div>
+                          <div className={styles.rowPrice}>{formatLKR(it.price)}</div>
+                          <button
+                            type="button"
+                            className={styles.detailsBtn}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openDetails(it);
+                            }}
+                          >
+                            View details
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Right column: summary */}
+          <div className={styles.card}>
+            <div className={styles.cardTop}>
+              <h3 className={styles.cardTitle}>Selected Parts</h3>
+              <div className={styles.miniNote}>Auto moves to next step after selection</div>
+            </div>
+
+            <div className={styles.summaryList}>
+              {PARTS.map((p) => {
+                const item = selections[p.key];
+                return (
+                  <div key={p.key} className={`${styles.sumRow} ${item ? "" : styles.dim}`}>
+                    <div className={styles.sumLeft}>
+                      <div className={styles.sumLabel}>{p.label}</div>
+                      <div className={styles.sumName}>{item ? item.name : "Not selected"}</div>
+                    </div>
+
+                    <div className={styles.sumRight}>
+                      {item ? (
+                        <>
+                          <div className={styles.qty}>
+                            <button
+                              onClick={() =>
+                                setQtyByKey((prev) => ({
+                                  ...prev,
+                                  [p.key]: Math.max(1, (prev[p.key] || 1) - 1),
+                                }))
+                              }
+                            >
+                              −
+                            </button>
+                            <span>{qtyByKey[p.key] || 1}</span>
+                            <button
+                              onClick={() =>
+                                setQtyByKey((prev) => ({
+                                  ...prev,
+                                  [p.key]: (prev[p.key] || 1) + 1,
+                                }))
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                          <div className={styles.sumPrice}>{formatLKR(item.price * (qtyByKey[p.key] || 1))}</div>
+                        </>
+                      ) : (
+                        <button
+                          className={`${styles.ghostBtn} ${styles.small}`}
+                          onClick={() => {
+                            const idx = PARTS.findIndex((x) => x.key === p.key);
+                            if (p.key === "cpu") {
+                              goToStep(0);
+                              if (!cpuBrandSelected) openCpuBrandModal();
+                            } else {
+                              goToStep(Math.max(0, idx));
+                            }
+                          }}
+                        >
+                          Select
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className={styles.divider} />
+
+            <div className={styles.totals}>
+              <div className={styles.tRow}>
+                <span>Total</span>
+                <span>{formatLKR(total)}</span>
+              </div>
+              <div className={styles.tRow}>
+                <span>Discount</span>
+                <span className={styles.discount}>− {formatLKR(discount)}</span>
+              </div>
+              <div className={`${styles.tRow} ${styles.grand}`}>
+                <span>Payable</span>
+                <span>{formatLKR(payable)}</span>
+              </div>
+            </div>
+
+            <div className={styles.ctaRow}>
+              <button className={`${styles.primaryBtn} ${styles.full}`} onClick={() => alert("Connect this to your cart ✅")}>
                 Add to Cart
               </button>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ✅ CPU Modal (ONLY AMD/Intel buttons) */}
-      {cpuModalOpen && (
-        <div className={styles.modalBack} onMouseDown={() => setCpuModalOpen(false)}>
-          <div className={styles.modal} onMouseDown={(e) => e.stopPropagation()}>
-            <div className={styles.modalTop}>
-              <div>
-                <div className={styles.modalTitle}>Processor Selection</div>
-                <div className={styles.muted}>Select AMD or Intel</div>
+        {/* AI Assistant section */}
+        <section className={`${styles.card} ${styles.aiCard}`}>
+          <div className={styles.cardTop}>
+            <h2 className={styles.cardTitle}>AI PC Builder Assistant</h2>
+            <div className={styles.miniNote}>Scroll here after selecting parts to get suggestions</div>
+          </div>
+
+          <div className={styles.aiGrid}>
+            <div className={styles.aiSuggestion}>
+              <div className={styles.aiTitle}>AI Suggestion Note</div>
+              <pre className={styles.aiBox}>{aiSuggestionText()}</pre>
+            </div>
+
+            <div className={styles.aiAsk}>
+              <div className={styles.aiTitle}>Ask a Question</div>
+              <div className={styles.askRow}>
+                <input
+                  className={styles.askInput}
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  placeholder="e.g., Will this build bottleneck at 1440p gaming?"
+                />
+                <button className={styles.primaryBtn} onClick={askAI}>Ask</button>
               </div>
-              <button className={styles.xBtn} onClick={() => setCpuModalOpen(false)}>✕</button>
-            </div>
 
-            <div className={styles.brandPick}>
-              <button className={styles.on} onClick={() => chooseCpuBrand("AMD")}>AMD</button>
-              <button className={styles.on} onClick={() => chooseCpuBrand("Intel")}>Intel</button>
-            </div>
+              <div className={styles.aiAnswer}>
+                <div className={styles.aiTitle}>Answer</div>
+                <div className={styles.answerBox}>
+                  {aiAnswer ? <pre className={styles.answerText}>{aiAnswer}</pre> : <span className={styles.muted}>AI answer will appear here.</span>}
+                </div>
+              </div>
 
-            <div className={styles.modalBottom}>
-              <button className={styles.ghostBtn} onClick={() => setCpuModalOpen(false)}>Cancel</button>
-              <div className={styles.muted}>After choosing type → CPU models appear on the left.</div>
+              <div className={styles.finalRow}>
+                <button className={`${styles.primaryBtn} ${styles.full}`} onClick={() => alert("Final add-to-cart action ✅")}>
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        </section>
 
-
-      {detailsOpen && detailsItem && (
-        <div className={styles.modalBack} onMouseDown={closeDetails}>
-          <div className={styles.modal} onMouseDown={(e) => e.stopPropagation()}>
-            <div className={styles.modalTop}>
-              <div>
-                <div className={styles.modalTitle}>{detailsItem.name}</div>
-                <div className={styles.muted}>View details</div>
+        {/* ✅ CPU Modal (ONLY AMD/Intel buttons) */}
+        {cpuModalOpen && (
+          <div className={styles.modalBack} onMouseDown={() => setCpuModalOpen(false)}>
+            <div className={styles.modal} onMouseDown={(e) => e.stopPropagation()}>
+              <div className={styles.modalTop}>
+                <div>
+                  <div className={styles.modalTitle}>Processor Selection</div>
+                  <div className={styles.muted}>Select AMD or Intel</div>
+                </div>
+                <button className={styles.xBtn} onClick={() => setCpuModalOpen(false)}>✕</button>
               </div>
-              <button type="button" className={styles.xBtn} onClick={closeDetails}>✕</button>
-            </div>
 
-            <div className={styles.detailsBody}>
-              <div className={styles.detailsGrid}>
-                {(() => {
-                  const pairs = [];
-                  const add = (label, value) => {
-                    if (value === undefined || value === null || value === "") return;
-                    pairs.push({ label, value: String(value) });
-                  };
-
-                  const stockText =
-                    detailsItem.stock === "in"
-                      ? "In stock"
-                      : detailsItem.stock === "out"
-                      ? "Out of stock"
-                      : detailsItem.stock === "pre"
-                      ? "Pre-order"
-                      : detailsItem.stock;
-
-                  add("Stock", stockText);
-                  add("Brand", detailsItem.brand);
-                  add("Socket", detailsItem.socket);
-                  add("Type", detailsItem.type);
-                  add("Watt", detailsItem.watt ? `${detailsItem.watt}W` : "");
-                  return pairs;
-                })().map((p) => (
-                  <div key={p.label} className={styles.detailRow}>
-                    <div className={styles.detailLabel}>{p.label}</div>
-                    <div className={styles.detailValue}>{p.value}</div>
-                  </div>
-                ))}
+              <div className={styles.brandPick}>
+                <button className={styles.on} onClick={() => chooseCpuBrand("AMD")}>AMD</button>
+                <button className={styles.on} onClick={() => chooseCpuBrand("Intel")}>Intel</button>
               </div>
-            </div>
 
-            <div className={styles.modalBottom}>
-              <div className={styles.muted}>
-                Price: <span className={styles.detailsPrice}>{formatLKR(detailsItem.price)}</span>
+              <div className={styles.modalBottom}>
+                <button className={styles.ghostBtn} onClick={() => setCpuModalOpen(false)}>Cancel</button>
+                <div className={styles.muted}>After choosing type → CPU models appear on the left.</div>
               </div>
-              <button
-                type="button"
-                className={styles.primaryBtn}
-                onClick={() => {
-                  if (detailsItem.stock === "out") return;
-                  setSelection(activeStep.key, detailsItem);
-                  closeDetails();
-                }}
-                disabled={detailsItem.stock === "out"}
-                title={detailsItem.stock === "out" ? "Out of stock" : "Select this item"}
-              >
-                Select
-              </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-    </div>
+
+        {detailsOpen && detailsItem && (
+          <div className={styles.modalBack} onMouseDown={closeDetails}>
+            <div className={styles.modal} onMouseDown={(e) => e.stopPropagation()}>
+              <div className={styles.modalTop}>
+                <div>
+                  <div className={styles.modalTitle}>{detailsItem.name}</div>
+                  <div className={styles.muted}>View details</div>
+                </div>
+                <button type="button" className={styles.xBtn} onClick={closeDetails}>✕</button>
+              </div>
+
+              <div className={styles.detailsBody}>
+                <div className={styles.detailsGrid}>
+                  {(() => {
+                    const pairs = [];
+                    const add = (label, value) => {
+                      if (value === undefined || value === null || value === "") return;
+                      pairs.push({ label, value: String(value) });
+                    };
+
+                    const stockText =
+                      detailsItem.stock === "in"
+                        ? "In stock"
+                        : detailsItem.stock === "out"
+                        ? "Out of stock"
+                        : detailsItem.stock === "pre"
+                        ? "Pre-order"
+                        : detailsItem.stock;
+
+                    add("Stock", stockText);
+                    add("Brand", detailsItem.brand);
+                    add("Socket", detailsItem.socket);
+                    add("Type", detailsItem.type);
+                    add("Watt", detailsItem.watt ? `${detailsItem.watt}W` : "");
+                    return pairs;
+                  })().map((p) => (
+                    <div key={p.label} className={styles.detailRow}>
+                      <div className={styles.detailLabel}>{p.label}</div>
+                      <div className={styles.detailValue}>{p.value}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.modalBottom}>
+                <div className={styles.muted}>
+                  Price: <span className={styles.detailsPrice}>{formatLKR(detailsItem.price)}</span>
+                </div>
+                <button
+                  type="button"
+                  className={styles.primaryBtn}
+                  onClick={() => {
+                    if (detailsItem.stock === "out") return;
+                    setSelection(activeStep.key, detailsItem);
+                    closeDetails();
+                  }}
+                  disabled={detailsItem.stock === "out"}
+                  title={detailsItem.stock === "out" ? "Out of stock" : "Select this item"}
+                >
+                  Select
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </>
   );
 }
