@@ -48,10 +48,10 @@ export default function Header() {
             </button>
           </div>
 
-          <a href="/cart" className={styles.ghCart} aria-label="Cart">
+          <Link to="/checkout" className={styles.ghCart} aria-label="Cart">
             <img src="/src/assets/icons/header/cart-icon.png" alt="" />
             <span className={styles.cartBadge}>3</span>
-          </a>
+          </Link>
 
           {/* HAMBURGER */}
           <button className={styles.ghHamburger} aria-label="Open menu">
