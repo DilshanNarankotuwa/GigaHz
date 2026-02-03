@@ -359,7 +359,14 @@ export default function BuildMyPC() {
             >
               Reset build
             </button>
-            <button className={styles.primaryBtn} onClick={() =>navigate('/checkout') }>
+            <button
+              className={styles.primaryBtn}
+              onClick={() => {
+                const payload = { selections, qtyByKey };
+                sessionStorage.setItem("gigahz_checkout", JSON.stringify(payload));
+                navigate("/checkout", { state: payload });
+              }}
+            >
               Add to Cart
             </button>
           </div>
@@ -637,7 +644,14 @@ export default function BuildMyPC() {
               </div>
 
               <div className={styles.finalRow}>
-                <button className={`${styles.primaryBtn} ${styles.full}`} onClick={() => navigate('/checkout') }>
+                <button
+                  className={styles.primaryBtn}
+                  onClick={() => {
+                    const payload = { selections, qtyByKey };
+                    sessionStorage.setItem("gigahz_checkout", JSON.stringify(payload));
+                    navigate("/checkout", { state: payload });
+                  }}
+                >
                   Add to Cart
                 </button>
               </div>

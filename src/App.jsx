@@ -6,7 +6,7 @@ import LaptopsPage from './pages/laptopspage'
 import MobilesPage from './pages/mobilespage'
 import PreOwnedPage from './pages/preownedpage'
 import BuildMyPC from './pages/buildmypcpage'
-import CheckoutaPage from './pages/checkout'
+import CheckoutaPage from './pages/checkoutpage'
 
 function App() {
   return (
