@@ -6,6 +6,7 @@ import LaptopsPage from './pages/laptopspage'
 import MobilesPage from './pages/mobilespage'
 import PreOwnedPage from './pages/preownedpage'
 import BuildMyPC from './pages/buildmypcpage'
+import CheckoutaPage from './pages/checkout'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path='mobiles' element={<MobilesPage/>}/>
       <Route path='preowned' element={<PreOwnedPage/>}/>
       <Route path='buildmypc' element={<BuildMyPC/>}/>
+      <Route path='checkout' element={<CheckoutaPage/>}/>
     </Routes>
   )
 }
