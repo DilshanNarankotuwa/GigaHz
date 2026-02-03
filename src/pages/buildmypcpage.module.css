@@ -7,8 +7,8 @@
   --muted2: rgba(255,255,255,0.45);
   --border: rgba(255,255,255,0.10);
 
-  --accent: #ff2d55;      /* GigaHz vibe */
-  --accent2: #ff7a18;     /* warm highlight */
+  --accent: #ff2d55;      
+  --accent2: #ff7a18;     
   --good: #38d9a9;
   --warn: #ffd43b;
   --bad: #ff6b6b;
@@ -25,12 +25,12 @@
               radial-gradient(900px 800px at 50% 80%, rgba(56,217,169,0.08), transparent 55%),
               var(--bg);
   color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue";
+  
 }
 
 .bmp-page{
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 80px auto 0px auto;
   padding: 28px 16px 60px;
 }
 
@@ -90,6 +90,11 @@
   padding: 16px;
 }
 
+.cardHighlight{
+  box-shadow: var(--shadow), 0 0 0 3px rgba(255, 16, 60, 0.5);
+  border-color: rgba(255,45,85,0.28);
+}
+
 .cardTop{
   display:flex;
   align-items:center;
@@ -100,14 +105,14 @@
 
 .cardTitle{
   margin:0;
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: 0.2px;
 }
 
 .stepHint{
   color: var(--muted);
-  font-size: 13px;
+  font-size: 16px;
 }
 .stepPill{
   display:inline-block;
@@ -171,18 +176,31 @@
   border-radius: 16px;
   padding: 14px;
   border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.492);
   cursor:pointer;
   transition: transform .16s ease, background .16s ease, border-color .16s ease;
 }
 .partCard:hover{
   transform: translateY(-2px);
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.579);
   border-color: rgba(255,255,255,0.18);
 }
 .partCard.active{
-  border-color: rgba(255,45,85,0.55);
-  box-shadow: 0 0 0 3px rgba(255,45,85,0.14);
+  border-color: rgba(255, 32, 73, 0.681);
+  box-shadow: 0 0 0 5px rgba(255,45,85,0.3);
+}
+
+.partImageWrap{ 
+  width: 100%; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  padding: 12px 8px; 
+}
+.partImage{ 
+  width: 60px; 
+  object-fit: contain; 
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.35)); 
 }
 
 .partTop{
@@ -192,8 +210,8 @@
   gap: 10px;
 }
 .partLabel{
-  font-weight: 900;
-  font-size: 14px;
+  font-weight: 800;
+  font-size: 16px;
 }
 .miniStatus{
   font-size: 12px;
@@ -209,10 +227,10 @@
   background: rgba(56,217,169,0.10);
 }
 
-.partBody{ margin-top: 10px; }
+.partBody{ margin-top: 2px; }
 .partName{
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 12px;
+  font-weight: 700;
   line-height: 1.25;
 }
 .partMeta{
@@ -331,11 +349,13 @@
   opacity: 0.55;
   transform:none;
 }
-.rowLeft{ display:flex; flex-direction:column; gap: 4px; }
+.rowLeft{ display:flex; gap: 20px; align-items: center; }
 .rowName{ font-weight: 900; font-size: 13px; }
 .rowSub{ color: var(--muted); font-size: 12px; }
-.rowRight{ display:flex; align-items:flex-end; flex-direction:column; gap: 6px; }
-.rowPrice{ font-weight: 900; font-size: 13px; }
+.rowRight{ display:flex; align-items:center; justify-content:flex-end; gap: 12px; }
+.rowMeta{ display:flex; align-items:flex-end; flex-direction:column; gap: 6px; }
+.modelThumb{ width: 80px; }
+.rowPrice{ font-weight: 700; font-size: 14px;margin-top: 5px; }
 
 .badge{
   font-size: 11px;
@@ -524,7 +544,7 @@
 .modalBack{
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.65);
+  background: rgb(255, 255, 255,0.5);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -532,8 +552,8 @@
   z-index: 50;
 }
 .modal{
-  width: min(760px, 100%);
-  max-height: 85vh;
+  width: min(500px, 100%);
+  max-height: 80vh;
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.12);
@@ -573,10 +593,12 @@
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(255,255,255,0.04);
   color: var(--text);
-  padding: 12px;
+  padding: 18px 0px;
   border-radius: 14px;
-  font-weight: 950;
+  font-weight: 750;
   transition: transform .15s ease, background .15s ease, border-color .15s ease;
+  margin: 0px 10px;
+  font-size: 20px;
 }
 .brandPick button:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.06); }
 .brandPick button.on{
@@ -644,8 +666,8 @@
   color: var(--text);
   padding: 7px 10px;
   border-radius: 12px;
-  font-weight: 800;
-  font-size: 12px;
+  font-weight: 700;
+  font-size: 10px;
   transition: transform .12s ease, background .12s ease, border-color .12s ease;
 }
 .detailsBtn:hover{
