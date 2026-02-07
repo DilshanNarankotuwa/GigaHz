@@ -14,82 +14,43 @@ const PARTS = [
   { key: "gpu", label: "GPU", image: "/buildmypc/icons/gpu.png" },
 ];
 
-// --- Demo catalog (replace with your DB later) ---
-const CATALOG = {
-  cpu: [
-    // AMD
-    { id: "cpu-ry5-7600", image: "/buildmypc/images/Picture1.png", brand: "AMD", name: "Ryzen 5 7600", socket: "AM5", price: 69000, stock: "in" },
-    { id: "cpu-ry7-7700x", image: "/buildmypc/images/Picture2.png", brand: "AMD", name: "Ryzen 7 7700X", socket: "AM5", price: 98000, stock: "pre" },
-    { id: "cpu-ry5-5600", image: "/buildmypc/images/Picture3.png", brand: "AMD", name: "Ryzen 5 5600", socket: "AM4", price: 42000, stock: "in" },
 
-    // Intel
-    { id: "cpu-i5-14400", image: "/images/models/cpu-i5-14400.png", brand: "Intel", name: "Core i5 14400", socket: "LGA1700", price: 82000, stock: "in" },
-    { id: "cpu-i7-14700k", image: "/images/models/cpu-i7-14700k.png", brand: "Intel", name: "Core i7 14700K", socket: "LGA1700", price: 145000, stock: "in" },
-    { id: "cpu-i3-13100", image: "/images/models/cpu-i3-13100.png", brand: "Intel", name: "Core i3 13100", socket: "LGA1700", price: 52000, stock: "out" },
-  ],
 
-  motherboard: [
-    { id: "mb-b650", image: "/images/models/mb-b650.png", name: "MSI B650 (AM5)", socket: "AM5", price: 82000, stock: "in" },
-    { id: "mb-x670", image: "/images/models/mb-x670.png", name: "ASUS X670 (AM5)", socket: "AM5", price: 135000, stock: "pre" },
-    { id: "mb-b550", image: "/images/models/mb-b550.png", name: "Gigabyte B550 (AM4)", socket: "AM4", price: 56000, stock: "in" },
-    { id: "mb-h610", image: "/images/models/mb-h610.png", name: "ASRock H610 (LGA1700)", socket: "LGA1700", price: 42000, stock: "in" },
-    { id: "mb-b760", image: "/images/models/mb-b760.png", name: "MSI B760 (LGA1700)", socket: "LGA1700", price: 71000, stock: "out" },
-  ],
 
-  ram: [
-    { id: "ram-ddr4-16", image: "/images/models/ram-ddr4-16.png", name: "16GB DDR4 (2x8) 3200MHz", type: "DDR4", price: 18000, stock: "in" },
-    { id: "ram-ddr5-16", image: "/images/models/ram-ddr5-16.png", name: "16GB DDR5 (2x8) 5600MHz", type: "DDR5", price: 29000, stock: "in" },
-    { id: "ram-ddr5-32", image: "/images/models/ram-ddr5-32.png", name: "32GB DDR5 (2x16) 6000MHz", type: "DDR5", price: 54000, stock: "pre" },
-  ],
+const API_BASE = "http://localhost:3000";
 
-  storage: [
-    { id: "ssd-1tb", image: "/images/models/ssd-1tb.png", name: "NVMe SSD 1TB Gen4", price: 26000, stock: "in" },
-    { id: "ssd-512", image: "/images/models/ssd-512.png", name: "NVMe SSD 512GB Gen3", price: 16000, stock: "in" },
-    { id: "hdd-2tb", image: "/images/models/hdd-2tb.png", name: "HDD 2TB 7200RPM", price: 19000, stock: "out" },
-  ],
-
-  casing: [
-    { id: "case-mid", image: "/images/models/case-mid.png", name: "Mid Tower Airflow Case", price: 22000, stock: "in" },
-    { id: "case-mini", image: "/images/models/case-mini.png", name: "Mini Tower Compact Case", price: 18000, stock: "pre" },
-  ],
-
-  cooling: [
-    { id: "cool-air", image: "/images/models/cool-air.png", name: "Air Cooler (120mm)", price: 9500, stock: "in" },
-    { id: "cool-aio-240", image: "/images/models/cool-aio-240.png", name: "AIO Liquid Cooler 240mm", price: 32000, stock: "pre" },
-    { id: "fans-3pack", image: "/images/models/fans-3pack.png", name: "ARGB Fans 3-Pack", price: 12000, stock: "in" },
-  ],
-
-  psu: [
-    { id: "psu-550", image: "/images/models/psu-550.png", name: "550W 80+ Bronze", watt: 550, price: 19000, stock: "in" },
-    { id: "psu-750", image: "/images/models/psu-750.png", name: "750W 80+ Gold", watt: 750, price: 36000, stock: "in" },
-    { id: "psu-850", image: "/images/models/psu-850.png", name: "850W 80+ Gold", watt: 850, price: 44000, stock: "pre" },
-  ],
-
-  gpu: [
-    { id: "gpu-4060", image: "/images/models/gpu-4060.png", name: "RTX 4060 8GB", tdp: 115, price: 135000, stock: "in" },
-    { id: "gpu-4070", image: "/images/models/gpu-4070.png", name: "RTX 4070 12GB", tdp: 200, price: 235000, stock: "pre" },
-    { id: "gpu-rx6600", image: "/images/models/gpu-rx6600.png", name: "RX 6600 8GB", tdp: 132, price: 92000, stock: "out" },
-  ],
+const CATEGORY_MAP = {
+  cpu: "cpu",
+  motherboard: "motherboard",
+  ram: "ram",
+  storage: "storage",
+  casing: "case",
+  cooling: "cooling",
+  psu: "psu",
+  gpu: "gpu",
 };
 
-// --- Simple compatibility rules (expand later) ---
-function compatibleItems(stepKey, selections) {
-  const cpu = selections.cpu;
-
-  if (stepKey === "motherboard") {
-    if (!cpu) return CATALOG.motherboard;
-    return CATALOG.motherboard.filter((m) => m.socket === cpu.socket);
-  }
-
-  if (stepKey === "ram") {
-    if (!cpu) return CATALOG.ram;
-    if (cpu.socket === "AM5") return CATALOG.ram.filter((r) => r.type === "DDR5");
-    if (cpu.socket === "LGA1700") return CATALOG.ram;
-    return CATALOG.ram.filter((r) => r.type === "DDR4");
-  }
-
-  return CATALOG[stepKey] || [];
+function normalizeProduct(p) {
+  return {
+    id: String(p.id),
+    image: p.image_url || "",
+    brand: p.brand || "",
+    name: p.name || "",
+    socket: p.socket || null,
+    type: p.ram_type || null,
+    watt: p.wattage ?? null,
+    price: Number(p.price_lkr ?? 0),
+    stock: (p.stock_qty ?? 0) > 0 ? "in" : "out",
+  };
 }
+
+
+
+
+
+
+
+
 
 function formatLKR(value) {
   return new Intl.NumberFormat("en-LK", { style: "currency", currency: "LKR" }).format(value);
@@ -102,6 +63,24 @@ function stockBadge(stock) {
 }
 
 export default function BuildMyPC() {
+
+
+
+  const [productsByKey, setProductsByKey] = useState({
+  cpu: [],
+  motherboard: [],
+  ram: [],
+  storage: [],
+  casing: [],
+  cooling: [],
+  psu: [],
+  gpu: [],
+});
+
+const [loadingProducts, setLoadingProducts] = useState(false);
+const [productsError, setProductsError] = useState("");
+
+
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const activeStep = PARTS[activeStepIndex];
 
@@ -145,6 +124,48 @@ export default function BuildMyPC() {
 
   const navigate = useNavigate(); 
 
+
+  async function loadProducts(stepKey) {
+  const category = CATEGORY_MAP[stepKey];
+  if (!category) return;
+
+  const params = new URLSearchParams();
+  params.set("category", category);
+  params.set("active", "true");
+
+  if (stepKey === "motherboard") {
+    if (selections.cpu?.socket) params.set("socket", selections.cpu.socket);
+  }
+
+  if (stepKey === "ram") {
+    const cpuSocket = selections.cpu?.socket;
+    if (cpuSocket === "AM5") params.set("ramType", "DDR5");
+    else if (cpuSocket === "AM4") params.set("ramType", "DDR4");
+  }
+
+  const url = `${API_BASE}/api/products?${params.toString()}`;
+
+  setLoadingProducts(true);
+  setProductsError("");
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+    const data = await res.json();
+
+    const normalized = (Array.isArray(data) ? data : []).map(normalizeProduct);
+    setProductsByKey((prev) => ({ ...prev, [stepKey]: normalized }));
+  } catch (e) {
+    setProductsError(String(e.message || e));
+    setProductsByKey((prev) => ({ ...prev, [stepKey]: [] }));
+  } finally {
+    setLoadingProducts(false);
+  }
+}
+
+
+
+
   //Wheel -> horizontal scroll (no scrollbar)
   function onCarouselWheel(e) {
     const el = carouselRef.current;
@@ -163,6 +184,16 @@ export default function BuildMyPC() {
       if (card) card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     });
   }
+
+
+  useEffect(() => {
+  loadProducts(activeStep.key);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [activeStep.key, selections.cpu?.socket]);
+
+
+
+
 
   // pulse highlight on left list when changing the active part
   useEffect(() => {
@@ -183,33 +214,30 @@ export default function BuildMyPC() {
 
 
   // ✅ Items shown in left column (CPU list depends on brand selected)
-  const itemsForLeft = useMemo(() => {
-    // CPU step: show CPUs only AFTER brand selected
-    if (activeStep.key === "cpu") {
-      if (!cpuBrandSelected) return [];
-      const base = CATALOG.cpu.filter((c) => c.brand === cpuBrandSelected);
-      return base
-        .filter((it) => !search.trim() || it.name.toLowerCase().includes(search.toLowerCase()))
-        .filter((it) => {
-          if (filterStock === "all") return true;
-          if (filterStock === "in") return it.stock === "in";
-          if (filterStock === "out") return it.stock === "out";
-          if (filterStock === "pre") return it.stock === "pre";
-          return true;
-        });
-    }
+ 
 
-    const base = compatibleItems(activeStep.key, selections);
-    return base
-      .filter((it) => !search.trim() || (it.name || "").toLowerCase().includes(search.toLowerCase()))
-      .filter((it) => {
-        if (filterStock === "all") return true;
-        if (filterStock === "in") return it.stock === "in";
-        if (filterStock === "out") return it.stock === "out";
-        if (filterStock === "pre") return it.stock === "pre";
-        return true;
-      });
-  }, [activeStep.key, selections, cpuBrandSelected, filterStock, search]);
+
+const itemsForLeft = useMemo(() => {
+  const list = productsByKey[activeStep.key] || [];
+
+  const base =
+    activeStep.key === "cpu"
+      ? (cpuBrandSelected ? list.filter((c) => c.brand === cpuBrandSelected) : [])
+      : list;
+
+  return base
+    .filter((it) => !search.trim() || (it.name || "").toLowerCase().includes(search.toLowerCase()))
+    .filter((it) => {
+      if (filterStock === "all") return true;
+      if (filterStock === "in") return it.stock === "in";
+      if (filterStock === "out") return it.stock === "out";
+      if (filterStock === "pre") return it.stock === "pre";
+      return true;
+    });
+}, [activeStep.key, productsByKey, cpuBrandSelected, filterStock, search]);
+
+
+
 
   const cartLines = useMemo(() => {
     return PARTS
