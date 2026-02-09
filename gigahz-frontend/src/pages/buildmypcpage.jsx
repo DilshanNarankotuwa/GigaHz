@@ -4,14 +4,14 @@ import Header from '../components/Header'
 import { useNavigate } from "react-router";
 
 const PARTS = [
-  { key: "cpu", label: "CPU", image: "/buildmypc/icons/cpu.png" },
-  { key: "motherboard", label: "Motherboard", image: "/buildmypc/icons/motherboard.png" },
-  { key: "ram", label: "RAM", image: "/buildmypc/icons/ram.png" },
-  { key: "storage", label: "SSD & HDD", image: "/buildmypc/icons/ssd.png" },
-  { key: "casing", label: "Casing", image: "/buildmypc/icons/casing.png" },
-  { key: "cooling", label: "Cooling & Fans", image: "/buildmypc/icons/cooler.png" },
-  { key: "psu", label: "Power Unit", image: "/buildmypc/icons/psu.png" },
-  { key: "gpu", label: "GPU", image: "/buildmypc/icons/gpu.png" },
+  { key: "cpu", label: "CPU", image: "/icons/buildmypc/cpu.png" },
+  { key: "motherboard", label: "Motherboard", image: "/icons/buildmypc/motherboard.png" },
+  { key: "ram", label: "RAM", image: "/icons/buildmypc/ram.png" },
+  { key: "storage", label: "SSD & HDD", image: "/icons/buildmypc/ssd.png" },
+  { key: "casing", label: "Casing", image: "/icons/buildmypc/casing.png" },
+  { key: "cooling", label: "Cooling & Fans", image: "/icons/buildmypc/cooler.png" },
+  { key: "psu", label: "Power Unit", image: "/icons/buildmypc/psu.png" },
+  { key: "gpu", label: "GPU", image: "/icons/buildmypc/gpu.png" },
 ];
 
 

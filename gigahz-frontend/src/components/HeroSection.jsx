@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import styles from "./HeroSection.module.css";
-import image1 from "../assets/images/herosection/image1.jpg";
-import image2 from "../assets/images/herosection/image2.jpg";
-import image3 from "../assets/images/herosection/image3.jpg";
+import image1 from "/images/herosection/image1.jpg";
+import image2 from "/images/herosection/image2.jpg";
+import image3 from "/images/herosection/image3.jpg";
 
 
 export default function HeroSection() {

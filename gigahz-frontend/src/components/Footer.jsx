@@ -88,16 +88,16 @@ export default function Footer() {
 
             <div className={styles.socialRow} aria-label="Social links">
               <a className={styles.social} href="#" aria-label="Instagram">
-                <img className={styles.socialicon} src='/src/assets/icons/footer/instagram.png'/>
+                <img className={styles.socialicon} src='/icons/footer/instagram.png'/>
               </a>
               <a className={styles.social} href="#" aria-label="Facebook">
-                <img className={styles.socialicon} src='/src/assets/icons/footer/facebook.png'/>
+                <img className={styles.socialicon} src='/icons/footer/facebook.png'/>
               </a>
               <a className={styles.social} href="#" aria-label="TikTok">
-                <img className={styles.socialicon} src='/src/assets/icons/footer/tiktok.png'/>
+                <img className={styles.socialicon} src='/icons/footer/tiktok.png'/>
               </a>
               <a className={styles.social} href="#" aria-label="YouTube">
-                <img className={styles.socialicon} src='/src/assets/icons/footer/youtube.png'/>
+                <img className={styles.socialicon} src='/icons/footer/youtube.png'/>
               </a>
             </div>
           </section>

@@ -9,7 +9,7 @@ export default function Header() {
         {/* LEFT */}
         <div className={styles.ghLeft}>
           <Link to="/" className={styles.ghBrand} aria-label="Go to GigaHz home">
-            <img src="/src/assets/logo.png" className={styles.ghLogo} alt="GigaHz" />
+            <img src="/logo.png" className={styles.ghLogo} alt="GigaHz" />
           </Link>
         </div>
 
@@ -44,12 +44,12 @@ export default function Header() {
           <div className={styles.ghSearch}>
             <input type="text" placeholder="Search products…" />
             <button aria-label="Search">
-              <img className={styles.searchicon}src="/src/assets/icons/header/search.png" alt=""/>
+              <img className={styles.searchicon}src="/icons/header/search.png" alt=""/>
             </button>
           </div>
 
           <Link to="/checkout" className={styles.ghCart} aria-label="Cart">
-            <img src="/src/assets/icons/header/cart-icon.png" alt="" />
+            <img src="/icons/header/cart-icon.png" alt="" />
             <span className={styles.cartBadge}>3</span>
           </Link>
 
