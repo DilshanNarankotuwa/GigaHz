@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router";
 import styles from "./HeroSection.module.css";
 import image1 from "../assets/images/herosection/image1.jpg";
 import image2 from "../assets/images/herosection/image2.jpg";
@@ -83,10 +84,10 @@ export default function HeroSection() {
         <p className={styles.subtitle}>{slides[active].subtitle}</p>
 
         <div className={styles.actions}>
-          <Link className={`${styles.btn} ${styles.btnPrimary}`} to="/buildmyPC">
+          <a className={`${styles.btn} ${styles.btnPrimary}`} href="#builder">
             {slides[active].ctaPrimary}
-          </Link>
-          <Link className={`${styles.btn} ${styles.btnGhost}`} to="/products">
+          </a>
+          <a className={`${styles.btn} ${styles.btnGhost}`} href="#products">
             {slides[active].ctaSecondary}
           </Link>
         </div>
