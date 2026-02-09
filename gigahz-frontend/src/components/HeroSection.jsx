@@ -84,12 +84,12 @@ export default function HeroSection() {
         <p className={styles.subtitle}>{slides[active].subtitle}</p>
 
         <div className={styles.actions}>
-          <Link className={`${styles.btn} ${styles.btnPrimary}`} to="/buildmypc">
+          <Link className={`${styles.btn} ${styles.btnPrimary}`} to="/buildmyPC">
             {slides[active].ctaPrimary}
           </Link>
-          <a className={`${styles.btn} ${styles.btnGhost}`} href="#products">
+          <Link className={`${styles.btn} ${styles.btnGhost}`} to="#products">
             {slides[active].ctaSecondary}
-          </a>
+          </Link>
         </div>
       </div>
 
