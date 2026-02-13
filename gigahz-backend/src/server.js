@@ -1,10 +1,14 @@
+import "dotenv/config";
 import express from "express";
 import categoriesRouter from "./routes/categories.js";
 import productsRouter from "./routes/products.js";
 import buildsRouter from "./routes/builds.js";
+import path from "path";
 
 const app = express();
 app.use(express.json());
+
+app.use(express.static(path.join(process.cwd(), "public")));
 
 // simple CORS (no cors package)
 app.use((req, res, next) => {
