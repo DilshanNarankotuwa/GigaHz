@@ -1,4 +1,4 @@
-# ⚡ GigaHz — Smart PC Building Platform
+# ⚡ GigaHz - Smart PC Building Platform
 
 ![React](https://img.shields.io/badge/Frontend-React-blue)
 ![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
@@ -34,10 +34,15 @@ This project demonstrates:
 ![Homepage](screenshots/home.png)
 
 ### Build Your PC Flow
-![Build Step 1](screenshots/build1.png)
+![Build Step 1](screenshots/build0.png)
 
-![Build Step 2](screenshots/build2.png)
+![Build Step 2](screenshots/build1.png)
 
+![Build Step 3](screenshots/build2.png)
+
+![Build Step 4](screenshots/build3.png)
+
+![Build Step 5](screenshots/build4.png)
 ---
 
 ## ✨ Key Features
