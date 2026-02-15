@@ -15,6 +15,7 @@ This repo contains:
 
 ### Build Your PC
 ![Build My Pc](screenshots/build1.png)
+---
 ![](screenshots/build2.png)
 
 
