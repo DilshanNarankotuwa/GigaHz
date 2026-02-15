@@ -21,7 +21,7 @@ const FALLBACK_PRODUCTS = [
     storage: "1tb",
     availability: "in_stock",
     condition: "new",
-    image: "/images/products/laptops/laptop-1.jpg",
+    image: "/images/products/laptops/Picture1.png",
   },
   {
     id: 2,
@@ -39,7 +39,7 @@ const FALLBACK_PRODUCTS = [
     storage: "512",
     availability: "pre_order",
     condition: "new",
-    image: "/images/products/laptops/laptop-2.jpg",
+    image: "/images/products/laptops/Picture2.png",
   },
   {
     id: 3,
@@ -57,7 +57,7 @@ const FALLBACK_PRODUCTS = [
     storage: "512",
     availability: "in_stock",
     condition: "new",
-    image: "/images/products/laptops/laptop-3.jpg",
+    image: "/images/products/laptops/Picture3.png",
   },
   {
     id: 4,
@@ -75,7 +75,7 @@ const FALLBACK_PRODUCTS = [
     storage: "256",
     availability: "in_stock",
     condition: "new",
-    image: "/images/products/laptops/laptop-4.jpg",
+    image: "/images/products/laptops/Picture4.png",
   },
 ];
 
@@ -224,7 +224,7 @@ export default function LaptopsPage() {
               <p className="lp-kicker">GigaHz Store</p>
               <h1 className="lp-title">Laptops</h1>
               <p className="lp-subtitle">
-                Filter fast. Compare clearly. Find your perfect rig — no clutter.
+                Filter fast. Compare clearly. Find your perfect rig  no clutter.
               </p>
             </div>
 
@@ -390,7 +390,6 @@ export default function LaptopsPage() {
                               <s>{formatLKR(p.oldPrice)}</s>
                             </span>
                           ) : null}
-                          <span className="lp-sold">{p.sold}+ sold</span>
                         </div>
 
                         <button className="lp-cart" type="button" aria-label="Add to cart">

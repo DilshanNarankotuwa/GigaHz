@@ -88,6 +88,18 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 16px;
+  
+}
+
+.card1{
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.045));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  height: 640px;
+  
+  
 }
 
 .cardHighlight{
@@ -324,6 +336,10 @@
   display:flex;
   flex-direction:column;
   gap: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 90%;
+  scrollbar-width: thin;
 }
 .listRow{
   display:flex;
@@ -710,3 +726,4 @@
 .detailsPrice{
   font-weight: 950;
 }
+

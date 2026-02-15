@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Footer.module.css";
-import {Link} from 'react-router'
+import { Link } from "react-router";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -15,7 +15,7 @@ export default function Footer() {
           <section className={styles.brandCol}>
             <a href="/" className={styles.brand} aria-label="Go to GigaHz home">
               <span className={styles.logoMark} aria-hidden="true">
-                <img className={styles.logo} src='/src/assets/logo.png'/>
+                <img className={styles.logo} src='/logo.png'/>
               </span>
               <span className={styles.brandText}>
                 <span className={styles.brandName}>GigaHz</span>

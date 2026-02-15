@@ -1,5 +1,3 @@
-
-
 /* HEADER */
 .ghHeader {
   position: fixed;
@@ -21,12 +19,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
 }
 
 /* BRAND */
 .ghBrand {
   display: flex;
   align-items: center;
+  min-width: 44px; /* tap area */
 }
 
 .ghLogo {
@@ -36,7 +36,7 @@
     drop-shadow(0 0 12px rgba(0, 180, 255, 0.4));
 }
 .ghLogo:hover {
- filter:
+  filter:
     drop-shadow(0 0 10px rgba(0, 200, 255, 0.9))
     drop-shadow(0 0 20px rgba(0, 200, 255, 0.7));
 }
@@ -60,6 +60,7 @@
   font-size: 15px;
   position: relative;
   padding: 8px 0;
+  white-space: nowrap;
 }
 
 .ghMenu a::after {
@@ -77,11 +78,6 @@
   width: 100%;
 }
 
-.caret {
-  font-size: 11px;
-  opacity: 0.7;
-}
-
 /* HIGHLIGHT */
 .build a {
   color: #00eaff;
@@ -91,15 +87,17 @@
 .ghRight {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
 }
 
 /* SEARCH */
 .ghSearch {
   display: flex;
+  align-items: center;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   overflow: hidden;
+  height: 40px;
 }
 
 .ghSearch input {
@@ -107,38 +105,52 @@
   border: none;
   outline: none;
   color: white;
-  padding: 8px 14px;
+  padding: 0 12px;
   width: 180px;
+  font-size: 14px;
+}
+
+.ghSearch input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .ghSearch button {
   border: none;
   background: transparent;
   cursor: pointer;
+  width: 44px;
+  height: 40px;
+  display: grid;
+  place-items: center;
 }
 
-.searchicon{
-  width:35px;
-  
+.searchicon {
+  width: 28px;
+  height: 28px;
 }
 
 /* CART */
 .ghCart {
   position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
 }
 
 .ghCart img {
-  width: 34px;
+  width: 32px;
+  height: 32px;
 }
 
 .cartBadge {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: 4px;
+  right: 4px;
   background: #00eaff;
   color: black;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
   padding: 2px 6px;
   border-radius: 999px;
 }
@@ -151,35 +163,166 @@
   color: white;
   font-size: 26px;
   cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  :global(body) {
-    padding-top: 60px;
-  }
+/* ---------- MOBILE MENU (Hamburger) ---------- */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+  z-index: 999; /* below header (1000) but above page */
+}
 
+.mobileOverlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 60px; /* matches mobile header height */
+  left: 0;
+  right: 0;
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  z-index: 1001; /* above header */
+}
+
+.mobileMenu.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileMenuInner {
+  margin: 10px 12px;
+  border-radius: 18px;
+  background: rgba(10, 10, 14, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.mobileTitle {
+  padding: 12px 14px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  padding: 14px 14px;
+  text-decoration: none;
+  color: #eaeaea;
+  font-weight: 650;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mobileLink:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mobileBuild {
+  color: #00eaff;
+}
+
+/* Desktop: hide mobile panel/overlay */
+@media (min-width: 901px) {
+  .mobileMenu,
+  .mobileOverlay {
+    display: none;
+  }
+}
+
+
+/* ✅ RESPONSIVE */
+@media (max-width: 900px) {
   .ghHeader {
     height: 60px;
+  }
+
+  .ghNav {
+    padding: 0 14px;
+    gap: 10px;
   }
 
   .ghMenu {
     display: none;
   }
 
+  /* show hamburger */
   .ghHamburger {
-    display: block;
+    display: grid;
   }
 
+  /* logo swap */
   .ghLogo {
     display: none;
   }
 
   .ghLogoMobile {
     display: block;
+    
+  }
+
+  /* make search compact */
+  .ghSearch {
+    height: 36px;
   }
 
   .ghSearch input {
     width: 120px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .ghSearch button {
+    width: 40px;
+    height: 36px;
+  }
+
+  .searchicon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .ghCart {
+    width: 42px;
+    height: 42px;
+  }
+
+  .ghCart img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* ✅ extra small phones */
+@media (max-width: 420px) {
+  .ghNav {
+    padding: 0 10px;
+  }
+
+  .ghSearch input {
+    width: 92px; /* prevents header overflow */
+  }
+
+  .ghRight {
+    gap: 10px;
   }
 }

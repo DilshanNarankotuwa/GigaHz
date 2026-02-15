@@ -1,4 +1,4 @@
-# GigaHz ⚡️
+# GigaHz
 **GigaHz** is a PC-building + shopping platform with a **Build Your Own PC** flow that prevents invalid builds using **real compatibility rules** (socket, RAM type, power budgeting, and more).
 
 This repo contains:

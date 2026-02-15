@@ -79,10 +79,9 @@ export default function TestimonialSection() {
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.header}>
-          <div className={styles.brandRow}>
-            <div className={styles.brandWord}>Google</div>
-          </div>
-
+            
+          <img src="/images/testimonial/google.png" alt="Google" className={styles.googlelogo} />
+            
           <div className={styles.subRow}>
             <Stars count={5} />
             <VerifiedBadge />

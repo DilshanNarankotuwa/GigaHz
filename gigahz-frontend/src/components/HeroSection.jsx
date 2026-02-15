@@ -1,13 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./HeroSection.module.css";
 import image1 from "/images/herosection/image1.jpg";
 import image2 from "/images/herosection/image2.jpg";
 import image3 from "/images/herosection/image3.jpg";
-
+import { Link } from "react-router";
 
 export default function HeroSection() {
-  // Put images inside: /public/images/hero/
   const slides = useMemo(
     () => [
       {
@@ -41,25 +39,66 @@ export default function HeroSection() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
+  const hostRef = useRef(null);
+  const startXRef = useRef(0);
+  const lastXRef = useRef(0);
+  const pointerDownRef = useRef(false);
+  const resumeTimerRef = useRef(null);
+
   const goTo = (index) => setActive((index + slides.length) % slides.length);
   const next = () => goTo(active + 1);
   const prev = () => goTo(active - 1);
+
+  const pauseBriefly = (ms = 1200) => {
+    setPaused(true);
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => setPaused(false), ms);
+  };
 
   useEffect(() => {
     if (paused) return;
     const t = setInterval(() => {
       setActive((a) => (a + 1) % slides.length);
     }, 4500);
-
     return () => clearInterval(t);
   }, [paused, slides.length]);
 
+  const onPointerDown = (e) => {
+    pointerDownRef.current = true;
+    startXRef.current = e.clientX;
+    lastXRef.current = e.clientX;
+    setPaused(true);
+  };
+
+  const onPointerMove = (e) => {
+    if (!pointerDownRef.current) return;
+    lastXRef.current = e.clientX;
+  };
+
+  const onPointerUp = () => {
+    if (!pointerDownRef.current) return;
+    pointerDownRef.current = false;
+
+    const dx = lastXRef.current - startXRef.current;
+    const SWIPE_PX = 40;
+
+    if (dx <= -SWIPE_PX) next();
+    else if (dx >= SWIPE_PX) prev();
+
+    pauseBriefly();
+  };
+
   return (
     <section
+      ref={hostRef}
       className={styles.hero}
       aria-label="GigaHz hero"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      style={{ touchAction: "pan-y" }}
     >
       {/* Slides */}
       <div className={styles.slides}>
@@ -74,52 +113,29 @@ export default function HeroSection() {
         ))}
       </div>
 
-      {/* Overlay */}
       <div className={styles.overlay} />
 
-      {/* Content */}
       <div className={styles.content}>
         <p className={styles.eyebrow}>GigaHz • Custom PC Builder</p>
         <h1 className={styles.title}>{slides[active].title}</h1>
         <p className={styles.subtitle}>{slides[active].subtitle}</p>
 
         <div className={styles.actions}>
-          <Link className={`${styles.btn} ${styles.btnPrimary}`} to="/buildmyPC">
+          <Link className={`${styles.btn} ${styles.btnPrimary}`} to="/buildmypc">
             {slides[active].ctaPrimary}
           </Link>
-          <Link className={`${styles.btn} ${styles.btnGhost}`} to="#products">
+          <Link className={`${styles.btn} ${styles.btnGhost}`} to="/products">
             {slides[active].ctaSecondary}
           </Link>
         </div>
       </div>
 
-      {/* Controls */}
-      <button
-        className={`${styles.arrow} ${styles.left}`}
-        onClick={prev}
-        aria-label="Previous slide"
-        type="button"
-      >
-        ‹
-      </button>
-      <button
-        className={`${styles.arrow} ${styles.right}`}
-        onClick={next}
-        aria-label="Next slide"
-        type="button"
-      >
-        ›
-      </button>
-
-      {/* Dots */}
-      <div className={styles.dots} role="tablist" aria-label="Hero slide selector">
+      <div className={styles.dots}>
         {slides.map((_, i) => (
           <button
             key={i}
             className={`${styles.dot} ${i === active ? styles.dotActive : ""}`}
             onClick={() => goTo(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            aria-selected={i === active}
             type="button"
           />
         ))}

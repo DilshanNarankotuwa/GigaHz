@@ -29,7 +29,7 @@ const FALLBACK_MOBILES = [
     screen: 6.1,
     availability: "in_stock",
     condition: "new",
-    image: "/images/products/mobiles/mobile-1.jpg",
+    image: "/images/products/mobiles/Picture1.png",
   },
   {
     id: 2,
@@ -45,7 +45,7 @@ const FALLBACK_MOBILES = [
     screen: 6.1,
     availability: "pre_order",
     condition: "new",
-    image: "/images/products/mobiles/mobile-2.jpg",
+    image: "/images/products/mobiles/Picture2.png",
   },
 ];
 
@@ -257,7 +257,7 @@ export default function MobilesPage() {
       <ProductsPageLayout
         pageClassName="gh-mobiles-page"
         title="Mobiles"
-        subtitle="Find your daily driver — flagship, budget, or value king — in the cleanest way."
+        subtitle="Find your daily driver  flagship, budget, or value king  in the cleanest way."
         query={query}
         setQuery={setQuery}
         sortBy={sortBy}
@@ -318,7 +318,7 @@ export default function MobilesPage() {
                         <s>{formatLKR(p.oldPrice)}</s>
                       </span>
                     ) : null}
-                    <span className="lp-sold">{p.sold}+ sold</span>
+                  
                   </div>
 
                   <button className="lp-cart" type="button" aria-label="Add to cart">
