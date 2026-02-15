@@ -42,6 +42,8 @@ This project demonstrates:
 
 ![Build Step 4](screenshots/build3.png)
 
+### Checkout
+
 ![Build Step 5](screenshots/build4.png)
 ---
 
