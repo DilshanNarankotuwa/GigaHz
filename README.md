@@ -1,3 +1,8 @@
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
+![License](https://img.shields.io/badge/Status-Active-success)
+
 # GigaHz
 
 ### Homepage
