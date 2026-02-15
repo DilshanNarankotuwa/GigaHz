@@ -11,6 +11,12 @@ This repo contains:
 ---
 
 ## ✨ Key Features
+
+
+### Build Your PC
+![Build My Pc](screenshots/build1.png)(screenshots/build2.png)
+
+
 - **Build Your Own PC** flow (step-by-step parts selection)
 - **Compatibility validation** to prevent impossible builds
   - CPU ↔ Motherboard socket matching  
