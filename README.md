@@ -14,7 +14,8 @@ This repo contains:
 
 
 ### Build Your PC
-![Build My Pc](screenshots/build1.png)(screenshots/build2.png)
+![Build My Pc](screenshots/build1.png)
+![](screenshots/build2.png)
 
 
 - **Build Your Own PC** flow (step-by-step parts selection)
