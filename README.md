@@ -1,9 +1,12 @@
 # GigaHz
+
+### Homepage
+![Homepage](screenshots/home.png)
 **GigaHz** is a PC-building + shopping platform with a **Build Your Own PC** flow that prevents invalid builds using **real compatibility rules** (socket, RAM type, power budgeting, and more).
 
 This repo contains:
 - `gigahz-frontend` (client)
-- `gigahz-backend` (API server) :contentReference[oaicite:1]{index=1}
+- `gigahz-backend` (API server)
 
 ---
 
