@@ -10,7 +10,7 @@
 
 **A full-stack intelligent PC building platform with real-time hardware compatibility validation**
 
-[🌐 Live Demo](https://giga-hz.vercel.app) • [📖 Documentation](#-documentation) • [🐛 Report Bug](https://github.com/DilshanNarankotuwa/GigaHz/issues) • [✨ Request Feature](https://github.com/DilshanNarankotuwa/GigaHz/issues)
+[🌐 Live Demo](https://gigahz-demo.vercel.app) • [📖 Documentation](#-documentation) • [🐛 Report Bug](https://github.com/DilshanNarankotuwa/GigaHz/issues) • [✨ Request Feature](https://github.com/DilshanNarankotuwa/GigaHz/issues)
 
 ![GitHub stars](https://img.shields.io/github/stars/DilshanNarankotuwa/GigaHz?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/DilshanNarankotuwa/GigaHz?style=social)
