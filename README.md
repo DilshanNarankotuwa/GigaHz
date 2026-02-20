@@ -103,8 +103,6 @@ GigaHz implements a constraint-based validation system that ensures:
 
 ## 📸 Screenshots
 
-<details>
-<summary>Click to view screenshots</summary>
 
 ### Homepage
 ![Homepage](screenshots/home.png)
@@ -123,8 +121,6 @@ GigaHz implements a constraint-based validation system that ensures:
 
 ### Checkout Process
 ![Checkout](screenshots/build4.png)
-
-</details>
 
 ---
 
