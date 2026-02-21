@@ -716,9 +716,9 @@ copies or substantial portions of the Software.
 ## 📞 Contact
 
 **Dilshan Narankotuwa**
-- 🌐 Website: [giga-hz.vercel.app](https://giga-hz.vercel.app)
-- 📧 Email: [Your Email]
-- 💼 LinkedIn: [Your LinkedIn]
+- 🌐 Website: [personal portfolio](https://giga-hz.vercel.app)
+- 📧 Email: [mail me](narankotuwadilshan@gmail.com)
+- 💼 LinkedIn: [LinkedIn](https://www.linkedin.com/in/dilshan-narankotuwa)
 - 🐱 GitHub: [@DilshanNarankotuwa](https://github.com/DilshanNarankotuwa)
 
 **Project Link:** [https://github.com/DilshanNarankotuwa/GigaHz](https://github.com/DilshanNarankotuwa/GigaHz)
